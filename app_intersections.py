@@ -4,6 +4,7 @@ App Streamlit — Analyse d'intersections urbanistiques
 - INSEE via CSV local (v_commune_2025.csv)
 - Géométrie parcelle via WFS IGN (EPSG:4326), sans GeoPandas
 - Résultats persistés avec st.session_state (pas de disparition après le run)
+- Classement des couches par origine (WFS / SHP / Autres) via layer_registry
 """
 
 import json
@@ -217,6 +218,15 @@ def preview_attrs(result_item: Dict[str, Any], max_cols: int = 3) -> str:
     if not attrs: return "—"
     return ", ".join(attrs[:max_cols]) + (f" (+{len(attrs)-max_cols})" if len(attrs) > max_cols else "")
 
+# === Nouveaux helpers d'affichage d'origine ===
+def pretty_origin(o: Optional[str]) -> str:
+    o = (o or "").lower()
+    if o == "wfs":
+        return "🌐 WFS"
+    if o in ("shp", "shape", "shapefile", "file"):
+        return "🗂️ SHP"
+    return "❓ Autre"
+
 def render_outputs():
     """Affiche la carte + résultats depuis st.session_state."""
     parcel_coords = st.session_state.get("parcel_coords")
@@ -247,21 +257,46 @@ def render_outputs():
         f"Couches intersectantes: **{results.get('layers_with_hits', 0)}** / **{len(layers_all)}**"
     )
 
-    import pandas as pd
+    # Tableau principal + onglets par origine
     rows = []
     for lyr in layers_all:
-        name = lyr["full_name"]; r = hit_by_fullname.get(name)
+        name = lyr["full_name"]
+        r = hit_by_fullname.get(name)
         rows.append({
             "couche": name,
-            "srid": lyr["srid"],
+            "source": pretty_origin(lyr.get("origin")),
+            "intersecte": "✅" if r else "❌",        # affichage lisible
+            "origin_raw": (lyr.get("origin") or "").lower(),   # pour filtrage
+            "source_path": lyr.get("source_path") or "—",
             "geom_col": lyr["geom_col"],
-            "intersecte": "✅" if r else "❌",
+            "srid": lyr["srid"],
             "count": (r or {}).get("count", 0),
             "attributs": preview_attrs(r or {}),
             "couverture (aperçu)": summarize_coverage(r or {}),
         })
-    df = pd.DataFrame(rows).sort_values(["intersecte", "couche"], ascending=[False, True])
-    st.dataframe(df, use_container_width=True, height=420)
+    df = pd.DataFrame(rows)
+
+    tab_all, tab_wfs, tab_shp, tab_other = st.tabs(["Toutes", "WFS", "Fichiers (SHP)", "Autres"])
+
+    def show_df(filtered: pd.DataFrame):
+        if filtered.empty:
+            st.info("Aucune couche.")
+        else:
+            filtered = filtered.sort_values(["intersecte", "couche"], ascending=[False, True])
+            st.dataframe(
+                filtered.drop(columns=["origin_raw"]),  # colonne technique pour le filtre
+                use_container_width=True,
+                height=420
+            )
+
+    with tab_all:
+        show_df(df)
+    with tab_wfs:
+        show_df(df[df["origin_raw"] == "wfs"])
+    with tab_shp:
+        show_df(df[df["origin_raw"].isin(["shp", "shape", "shapefile", "file"])])
+    with tab_other:
+        show_df(df[~df["origin_raw"].isin(["wfs", "shp", "shape", "shapefile", "file"])])
 
     # Détails
     st.markdown("### Détails par couche intersectante")
@@ -269,7 +304,12 @@ def render_outputs():
         st.info("Aucune intersection trouvée.")
     else:
         for name, r in sorted(hit_by_fullname.items(), key=lambda kv: kv[0]):
+            lyr = next((x for x in layers_all if x["full_name"] == name), {})
+            origin_label = pretty_origin(lyr.get("origin"))
+            spath = lyr.get("source_path") or "—"
+
             with st.expander(f"{name} — {r.get('count', 0)} entité(s)"):
+                st.markdown(f"**Source**: {origin_label}  \n**source_path**: `{spath}`")
                 st.markdown(f"**SRID**: `{r.get('srid')}` — **geom**: `{r.get('geom_col')}`")
                 cov = r.get("coverage") or {}
                 if cov:
