@@ -11,6 +11,7 @@ Intersections parcelle (EPSG:4326) ↔ couches PostGIS (Supabase, pooler eu-west
     * values (distinctes) par attribut pertinent
     * coverage : % de parcelle couvert par chaque valeur d’attribut (UA 74%, UE 26%, …)
 - Timeouts locaux pour éviter les requêtes trop longues
+- ⚡ NEW: Annotation des couches via layer_registry (origin wfs/shp, source_path)
 
 Dépendances : sqlalchemy, psycopg2-binary, python-dotenv
 """
@@ -19,8 +20,7 @@ import os
 import re
 import json
 import logging
-import socket
-from urllib.parse import urlparse, quote_plus
+from urllib.parse import quote_plus
 from typing import List, Dict, Any, Optional, Tuple
 
 from sqlalchemy import create_engine, text
@@ -101,9 +101,120 @@ FROM geography_columns
 ORDER BY "schema", "table", geom_col;
 """
 
+# -------- Registry des couches (origine wfs/shp) -------- #
+def _split_schema_table(full_name: str) -> Tuple[str, str]:
+    if "." in full_name:
+        sch, tbl = full_name.split(".", 1)
+    else:
+        sch, tbl = "public", full_name
+    return sch, tbl
+
+def _table_exists(eng: Engine, full_name: str) -> bool:
+    sch, tbl = _split_schema_table(full_name)
+    q = """
+    SELECT 1
+    FROM information_schema.tables
+    WHERE table_schema = :schema AND table_name = :table
+    LIMIT 1;
+    """
+    with eng.begin() as con:
+        return con.execute(text(q), {"schema": sch, "table": tbl}).first() is not None
+
+def _list_columns(eng: Engine, full_name: str) -> List[str]:
+    sch, tbl = _split_schema_table(full_name)
+    q = """
+    SELECT column_name
+    FROM information_schema.columns
+    WHERE table_schema = :schema AND table_name = :table
+    """
+    with eng.begin() as con:
+        rows = con.execute(text(q), {"schema": sch, "table": tbl}).all()
+    return [r[0] for r in rows]
+
+def load_layer_registry_map(eng: Engine, registry_table: str = "public.layer_registry") -> Dict[Tuple[str, str], Dict[str, Any]]:
+    """
+    Retourne un dict { (schema, table) -> {origin, source_path, layer_id} }.
+    - origin provient idéalement de extra->>'origin' si extra est un JSON.
+    - On essaie de lire les colonnes si elles existent : table_schema, table_name, source_path, layer_id, extra.
+    - Si registry absent ou colonnes manquantes essentielles, renvoie {} (non bloquant).
+    """
+    if not _table_exists(eng, registry_table):
+        log.warning(f"ℹ️ Registry '{registry_table}' introuvable → pas d'annotation d'origine.")
+        return {}
+
+    cols = set(_list_columns(eng, registry_table))
+    required_any = {"table_name"}  # indispensable
+    if not required_any.issubset(cols):
+        log.warning(f"ℹ️ Registry présent mais sans colonne 'table_name' → pas d'annotation d'origine.")
+        return {}
+
+    sel_schema = "table_schema" if "table_schema" in cols else None
+    sel_name = "table_name"
+    sel_source = "source_path" if "source_path" in cols else None
+    sel_layer_id = "layer_id" if "layer_id" in cols else None
+    has_extra = "extra" in cols
+
+    parts = [sel_name]
+    if sel_schema: parts.append(sel_schema)
+    if sel_source: parts.append(sel_source)
+    if sel_layer_id: parts.append(sel_layer_id)
+    if has_extra: parts.append("extra")
+
+    q = f"SELECT {', '.join(parts)} FROM {registry_table};"
+
+    out_by_schema_table: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    out_by_table_only: Dict[str, Dict[str, Any]] = {}
+
+    try:
+        with eng.begin() as con:
+            rows = con.execute(text(q)).mappings().all()
+        for r in rows:
+            tbl = (r.get(sel_name) or "").strip()
+            if not tbl:
+                continue
+            sch = (r.get(sel_schema) or "").strip() if sel_schema else ""  # peut être vide → on matchera par nom seul
+            origin = None
+            if has_extra and r.get("extra"):
+                try:
+                    j = r["extra"]
+                    if isinstance(j, str):
+                        j = json.loads(j)
+                    if isinstance(j, dict):
+                        origin = (j.get("origin") or "").strip().lower() or None
+                except Exception:
+                    pass
+            meta = {
+                "origin": origin,
+                "source_path": r.get(sel_source),
+                "layer_id": r.get(sel_layer_id),
+            }
+            if sch:
+                out_by_schema_table[(sch, tbl)] = meta
+            out_by_table_only[tbl] = meta
+    except Exception as e:
+        log.warning(f"⚠️ Impossible de charger layer_registry: {e}")
+        return {}
+
+    # fusion : on garde les clés (schema, table) quand on les a, sinon on retombera sur un match par nom
+    # à l'appel, on tentera d'abord (schema, table) puis table seul.
+    return {**out_by_schema_table, **{(None, k): v for k, v in out_by_table_only.items()}}
+
+def _lookup_registry_meta(reg_map: Dict[Tuple[str, str], Dict[str, Any]], schema: str, table: str) -> Dict[str, Any]:
+    # priorité au couple exact (schema, table)
+    m = reg_map.get((schema, table))
+    if m:
+        return m
+    # fallback par nom de table seul
+    return reg_map.get((None, table), {}) or {}
+
 def list_layers(eng: Engine) -> List[Dict[str, Any]]:
+    # 1) couches PostGIS (geometry/geography)
     with eng.begin() as con:
         rows = con.execute(text(SQL_LIST_LAYERS)).mappings().all()
+
+    # 2) registry des origines (clé = (schema, table) ou fallback table seule)
+    reg = load_layer_registry_map(eng)  # {(schema, table) -> meta} et (None, table) -> meta
+
     layers = []
     for r in rows:
         sch, tbl, geom, srid, gkind = r["schema"], r["table"], r["geom_col"], int(r["srid"] or 0), r["gkind"]
@@ -113,7 +224,18 @@ def list_layers(eng: Engine) -> List[Dict[str, Any]]:
             continue
         if not all(_safe_ident(x) for x in [sch, tbl, geom]):
             continue
-        layers.append({"schema": sch, "table": tbl, "geom_col": geom, "srid": srid, "gkind": gkind})
+
+        meta = _lookup_registry_meta(reg, sch, tbl)
+        layers.append({
+            "schema": sch,
+            "table": tbl,
+            "geom_col": geom,
+            "srid": srid,
+            "gkind": gkind,
+            "origin": meta.get("origin"),           # ex: 'wfs' / 'shp' / None
+            "source_path": meta.get("source_path"), # ex: URL WFS / chemin SHP
+            "layer_id": meta.get("layer_id"),
+        })
     return layers
 
 # ========================= Choix des colonnes "valeur" ====================== #
@@ -281,7 +403,6 @@ def coverage_by_attribute(eng: Engine, layer, parcel_wkt_4326: str, attr: str, m
     return out
 
 # ------------------------------- Filet filtre verification SRID ------------------------------- #
-
 def effective_srid_for_layer(eng: Engine, layer: Dict[str, Any]) -> Optional[int]:
     """
     Retourne le SRID majoritaire observé dans les données (via ST_SRID),
@@ -305,8 +426,6 @@ def effective_srid_for_layer(eng: Engine, layer: Dict[str, Any]) -> Optional[int
     with eng.begin() as con:
         r = con.execute(text(q)).mappings().first()
     return int(r["srid"]) if r else None
-
-
 
 # ================================ Orchestration ============================= #
 def run(parcel_coords_lonlat_4326: List[List[float]],
@@ -357,9 +476,9 @@ def run(parcel_coords_lonlat_4326: List[List[float]],
                 )
                 vals_map = {k: _fix_utf8_mojibake(v) for k, v in vals_map.items()}
 
-                # Couverture % par valeur
+                # Couverture % par valeur, pour chaque attribut retenu
                 coverage = {}
-                for col in vals_map.keys():
+                for col in vals_map.keys():  # limiter si besoin
                     cov = coverage_by_attribute(
                         eng, {**lyr, "srid": lyr_srid}, parcel_wkt, col, min_pct=0.1
                     )
@@ -369,11 +488,13 @@ def run(parcel_coords_lonlat_4326: List[List[float]],
                 results.append({
                     "schema": lyr["schema"],
                     "table": lyr["table"],
-                    "srid": lyr_srid,  # on garde le SRID corrigé
+                    "srid": lyr_srid,  # SRID corrigé si besoin
                     "geom_col": lyr["geom_col"],
                     "count": n,
-                    "value_attributes": vals_map,  # {col -> [values]}
-                    "coverage": coverage           # {col -> [{value, area_m2, parcel_pct}, ...]}
+                    "origin": lyr.get("origin"),            # 👈 ajouté
+                    "source_path": lyr.get("source_path"),  # 👈 ajouté
+                    "value_attributes": vals_map,           # {col -> [values]}
+                    "coverage": coverage                    # {col -> [{value, area_m2, parcel_pct}, ...]}
                 })
                 log.info(f"✅ {i}/{len(layers)} {name}: {n} intersect(s) | attrs: {', '.join(vals_map.keys()) or '—'}")
             else:
@@ -401,3 +522,18 @@ def run(parcel_coords_lonlat_4326: List[List[float]],
     log.info(f"✅ Terminé. Couches intersectantes: {hit_layers}")
 
     return out
+
+# ================================== Main (exemple) =================================== #
+if __name__ == "__main__":
+    parcelle_latresne_coord = [
+        [-0.49049403, 44.78599768], [-0.49049645, 44.78601013], [-0.49046629, 44.78601153],
+        [-0.49046708, 44.78602620], [-0.49043873, 44.78602826], [-0.49043636, 44.78601257],
+        [-0.49042420, 44.78601232], [-0.49041418, 44.78594874], [-0.49040172, 44.78587046],
+        [-0.49039878, 44.78585153], [-0.49044849, 44.78584916], [-0.49045140, 44.78585943],
+        [-0.49045161, 44.78586276], [-0.49047401, 44.78587710], [-0.49049403, 44.78599768]
+    ]
+    OUTPUT = "intersections_valeurs_latresne.json"
+    run(parcel_coords_lonlat_4326=parcelle_latresne_coord,
+        per_layer_attr_values_limit=50,
+        save_json=OUTPUT,
+        schema_whitelist=["public"])
