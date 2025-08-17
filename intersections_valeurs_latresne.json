@@ -1,0 +1,964 @@
+{
+  "parcel": {
+    "srid": 4326,
+    "coords_lonlat": [
+      [
+        -0.49049403,
+        44.78599768
+      ],
+      [
+        -0.49049645,
+        44.78601013
+      ],
+      [
+        -0.49046629,
+        44.78601153
+      ],
+      [
+        -0.49046708,
+        44.7860262
+      ],
+      [
+        -0.49043873,
+        44.78602826
+      ],
+      [
+        -0.49043636,
+        44.78601257
+      ],
+      [
+        -0.4904242,
+        44.78601232
+      ],
+      [
+        -0.49041418,
+        44.78594874
+      ],
+      [
+        -0.49040172,
+        44.78587046
+      ],
+      [
+        -0.49039878,
+        44.78585153
+      ],
+      [
+        -0.49044849,
+        44.78584916
+      ],
+      [
+        -0.4904514,
+        44.78585943
+      ],
+      [
+        -0.49045161,
+        44.78586276
+      ],
+      [
+        -0.49047401,
+        44.7858771
+      ],
+      [
+        -0.49049403,
+        44.78599768
+      ]
+    ],
+    "wkt": "POLYGON((-0.49049403 44.78599768, -0.49049645 44.78601013, -0.49046629 44.78601153, -0.49046708 44.7860262, -0.49043873 44.78602826, -0.49043636 44.78601257, -0.4904242 44.78601232, -0.49041418 44.78594874, -0.49040172 44.78587046, -0.49039878 44.78585153, -0.49044849 44.78584916, -0.4904514 44.78585943, -0.49045161 44.78586276, -0.49047401 44.7858771, -0.49049403 44.78599768))"
+  },
+  "layers_with_hits": 14,
+  "results": [
+    {
+      "schema": "public",
+      "table": "admin_express_commune",
+      "srid": 4326,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "id": [
+          "commune.12562"
+        ],
+        "nom_officiel": [
+          "Latresne"
+        ],
+        "nom_officiel_en_majuscules": [
+          "LATRESNE"
+        ],
+        "statut": [
+          "Commune simple"
+        ],
+        "code_insee": [
+          "33234"
+        ],
+        "code_insee_du_canton": [
+          "3311"
+        ],
+        "code_insee_de_l_arrondissement": [
+          "332"
+        ],
+        "code_insee_du_departement": [
+          "33"
+        ],
+        "code_insee_de_la_region": [
+          "75"
+        ],
+        "codes_siren_des_epci": [
+          "243301439"
+        ],
+        "code_siren": [
+          "213302342"
+        ],
+        "code_postal": [
+          "33360"
+        ]
+      },
+      "coverage": {
+        "id": [
+          {
+            "value": "commune.12562",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nom_officiel": [
+          {
+            "value": "Latresne",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nom_officiel_en_majuscules": [
+          {
+            "value": "LATRESNE",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "statut": [
+          {
+            "value": "Commune simple",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_insee": [
+          {
+            "value": "33234",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_insee_du_canton": [
+          {
+            "value": "3311",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_insee_de_l_arrondissement": [
+          {
+            "value": "332",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_insee_du_departement": [
+          {
+            "value": "33",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_insee_de_la_region": [
+          {
+            "value": "75",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "codes_siren_des_epci": [
+          {
+            "value": "243301439",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_siren": [
+          {
+            "value": "213302342",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_postal": [
+          {
+            "value": "33360",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "admin_express_departement",
+      "srid": 4326,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "id": [
+          "departement.67"
+        ],
+        "nom_officiel": [
+          "Gironde"
+        ],
+        "nom_officiel_en_majuscules": [
+          "GIRONDE"
+        ],
+        "code_insee": [
+          "33"
+        ],
+        "code_insee_de_la_region": [
+          "75"
+        ],
+        "code_siren": [
+          "223300013"
+        ]
+      },
+      "coverage": {
+        "id": [
+          {
+            "value": "departement.67",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nom_officiel": [
+          {
+            "value": "Gironde",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nom_officiel_en_majuscules": [
+          {
+            "value": "GIRONDE",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_insee": [
+          {
+            "value": "33",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_insee_de_la_region": [
+          {
+            "value": "75",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_siren": [
+          {
+            "value": "223300013",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "admin_express_epci",
+      "srid": 4326,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "id": [
+          "epci.901"
+        ],
+        "nom_officiel": [
+          "CC des Portes de l'Entre-Deux-Mers"
+        ],
+        "nom_officiel_en_majuscules": [
+          "CC DES PORTES DE L'ENTRE-DEUX-MERS"
+        ],
+        "nature": [
+          "Communauté de communes"
+        ],
+        "codes_insee_des_communes_membres": [
+          "33033/33084/33085/33118/33226/33234/33245/33349/33381/33518/33534"
+        ],
+        "codes_insee_des_departements_membres": [
+          "33"
+        ],
+        "code_siren": [
+          "243301439"
+        ]
+      },
+      "coverage": {
+        "id": [
+          {
+            "value": "epci.901",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nom_officiel": [
+          {
+            "value": "CC des Portes de l'Entre-Deux-Mers",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nom_officiel_en_majuscules": [
+          {
+            "value": "CC DES PORTES DE L'ENTRE-DEUX-MERS",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nature": [
+          {
+            "value": "Communauté de communes",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "codes_insee_des_communes_membres": [
+          {
+            "value": "33033/33084/33085/33118/33226/33234/33245/33349/33381/33518/33534",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "codes_insee_des_departements_membres": [
+          {
+            "value": "33",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "code_siren": [
+          {
+            "value": "243301439",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "alearg33_l93",
+      "srid": 2154,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "dpt": [
+          "33"
+        ],
+        "alea": [
+          "Fort"
+        ]
+      },
+      "coverage": {
+        "dpt": [
+          {
+            "value": "33",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "alea": [
+          {
+            "value": "Fort",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "france_zonage_sismique",
+      "srid": 2154,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "nom": [
+          "Latresne"
+        ]
+      },
+      "coverage": {
+        "nom": [
+          {
+            "value": "Latresne",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "info_surf",
+      "srid": 2154,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "LIBELLE": [
+          "Droit de préemption urbain"
+        ],
+        "TYPEINF": [
+          "04"
+        ]
+      },
+      "coverage": {
+        "LIBELLE": [
+          {
+            "value": "Droit de préemption urbain",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "TYPEINF": [
+          {
+            "value": "04",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "irsn_radon_metropole",
+      "srid": 4326,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "NOM_COMM": [
+          "LATRESNE"
+        ],
+        "NOM_DEPT": [
+          "GIRONDE"
+        ]
+      },
+      "coverage": {
+        "NOM_COMM": [
+          {
+            "value": "LATRESNE",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "NOM_DEPT": [
+          {
+            "value": "GIRONDE",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "mh_tampon_500m",
+      "srid": 2154,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "nature_de_": [
+          "arrêté"
+        ],
+        "commune_fo": [
+          "Latresne"
+        ],
+        "denominati": [
+          "église"
+        ],
+        "identifian": [
+          "IYRR6T"
+        ],
+        "statut_jur": [
+          "propriété de la commune"
+        ],
+        "titre_edit": [
+          "Eglise Saint-Aubin"
+        ],
+        "commune__1": [
+          "Latresne"
+        ]
+      },
+      "coverage": {
+        "nature_de_": [
+          {
+            "value": "arrêté",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "commune_fo": [
+          {
+            "value": "Latresne",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "denominati": [
+          {
+            "value": "église",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "identifian": [
+          {
+            "value": "IYRR6T",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "statut_jur": [
+          {
+            "value": "propriété de la commune",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "titre_edit": [
+          {
+            "value": "Eglise Saint-Aubin",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "commune__1": [
+          {
+            "value": "Latresne",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "n_document_pprn_033",
+      "srid": 2154,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "id_gaspar": [
+          "33DREAL20170039"
+        ],
+        "nom": [
+          "PPRI - Latresne (révision)"
+        ],
+        "coderisque": [
+          "9999999"
+        ],
+        "nomrisque": [
+          "Inondation - Par une crue à débordement lent de cours d'eau ; Par submersion marine"
+        ]
+      },
+      "coverage": {
+        "id_gaspar": [
+          {
+            "value": "33DREAL20170039",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nom": [
+          {
+            "value": "PPRI - Latresne (révision)",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "coderisque": [
+          {
+            "value": "9999999",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nomrisque": [
+          {
+            "value": "Inondation - Par une crue à débordement lent de cours d'eau ; Par submersion marine",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "sup_assiette_surfacique",
+      "srid": 4326,
+      "geom_col": "geom",
+      "count": 3,
+      "value_attributes": {
+        "id": [
+          "assiette_sup_s.fid--46489024_198a37a5ac0_-2a0e",
+          "assiette_sup_s.fid--4de55e4f_198a5b0d4f0_6ccc",
+          "assiette_sup_s.fid-d3ccc54_198a4013f55_-79bc"
+        ],
+        "gpu_doc_id": [
+          "b43a6b76be845a1d596afb75fabf54c3"
+        ],
+        "suptype": [
+          "ac1"
+        ],
+        "idass": [
+          "AC1-172014607-1907195559-1-2"
+        ],
+        "idgen": [
+          "AC1-172014607-1907195559-1"
+        ],
+        "nomass": [
+          "AC1_Eglise-Saint-Aubin-IYRR6T_abor"
+        ],
+        "typeass": [
+          "Périmètre des abords"
+        ],
+        "nomsuplitt": [
+          "Eglise Saint-Aubin"
+        ]
+      },
+      "coverage": {
+        "id": [
+          {
+            "value": "assiette_sup_s.fid--46489024_198a37a5ac0_-2a0e",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          },
+          {
+            "value": "assiette_sup_s.fid--4de55e4f_198a5b0d4f0_6ccc",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          },
+          {
+            "value": "assiette_sup_s.fid-d3ccc54_198a4013f55_-79bc",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "gpu_doc_id": [
+          {
+            "value": "b43a6b76be845a1d596afb75fabf54c3",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "suptype": [
+          {
+            "value": "ac1",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "idass": [
+          {
+            "value": "AC1-172014607-1907195559-1-2",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "idgen": [
+          {
+            "value": "AC1-172014607-1907195559-1",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nomass": [
+          {
+            "value": "AC1_Eglise-Saint-Aubin-IYRR6T_abor",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "typeass": [
+          {
+            "value": "Périmètre des abords",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "nomsuplitt": [
+          {
+            "value": "Eglise Saint-Aubin",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "sup_surf",
+      "srid": 2154,
+      "geom_col": "geom",
+      "count": 1,
+      "value_attributes": {
+        "nom_sup": [
+          "AC1"
+        ]
+      },
+      "coverage": {
+        "nom_sup": [
+          {
+            "value": "AC1",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "zonage_plu",
+      "srid": 4326,
+      "geom_col": "geom",
+      "count": 6,
+      "value_attributes": {
+        "id": [
+          "zone_urba.fid-15bb15a0_198a3fa19bf_-6e03",
+          "zone_urba.fid-15bb15a0_198a3fa19bf_-6e0d",
+          "zone_urba.fid-5264c48f_198a3754977_1f48",
+          "zone_urba.fid-5264c48f_198a3754977_1f52",
+          "zone_urba.fid--7643c48f_198a7b7110d_20e2",
+          "zone_urba.fid--7643c48f_198a7b7110d_20ec"
+        ],
+        "gpu_doc_id": [
+          "f26c159f49168100834810a8d7834216"
+        ],
+        "libelle": [
+          "UA",
+          "UE"
+        ],
+        "typezone": [
+          "U"
+        ],
+        "nomfic": [
+          "33234_REGLEMENT_20170213.pdf"
+        ],
+        "datappro": [
+          "20170213"
+        ],
+        "datvalid": [
+          "20170213"
+        ]
+      },
+      "coverage": {
+        "id": [
+          {
+            "value": "zone_urba.fid-15bb15a0_198a3fa19bf_-6e03",
+            "area_m2": 101.944881425295,
+            "parcel_pct": 0.999993048325327
+          },
+          {
+            "value": "zone_urba.fid-5264c48f_198a3754977_1f52",
+            "area_m2": 101.944881425295,
+            "parcel_pct": 0.999993048325327
+          },
+          {
+            "value": "zone_urba.fid--7643c48f_198a7b7110d_20ec",
+            "area_m2": 101.944881425295,
+            "parcel_pct": 0.999993048325327
+          }
+        ],
+        "gpu_doc_id": [
+          {
+            "value": "f26c159f49168100834810a8d7834216",
+            "area_m2": 101.94559011792,
+            "parcel_pct": 1.00000000000047
+          }
+        ],
+        "libelle": [
+          {
+            "value": "UA",
+            "area_m2": 101.944881425295,
+            "parcel_pct": 0.999993048325327
+          }
+        ],
+        "typezone": [
+          {
+            "value": "U",
+            "area_m2": 101.94559011792,
+            "parcel_pct": 1.00000000000047
+          }
+        ],
+        "nomfic": [
+          {
+            "value": "33234_REGLEMENT_20170213.pdf",
+            "area_m2": 101.94559011792,
+            "parcel_pct": 1.00000000000047
+          }
+        ],
+        "datappro": [
+          {
+            "value": "20170213",
+            "area_m2": 101.94559011792,
+            "parcel_pct": 1.00000000000047
+          }
+        ],
+        "datvalid": [
+          {
+            "value": "20170213",
+            "area_m2": 101.94559011792,
+            "parcel_pct": 1.00000000000047
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "zone_urba",
+      "srid": 2154,
+      "geom_col": "geom",
+      "count": 2,
+      "value_attributes": {
+        "LIBELLE": [
+          "UA",
+          "UE"
+        ],
+        "TYPEZONE": [
+          "U"
+        ],
+        "NOMFIC": [
+          "33234_REGLEMENT_20170213.pdf"
+        ],
+        "DATAPPRO": [
+          "20170213"
+        ],
+        "DATVALID": [
+          "20170213"
+        ]
+      },
+      "coverage": {
+        "LIBELLE": [
+          {
+            "value": "UA",
+            "area_m2": 101.944901605806,
+            "parcel_pct": 0.999993246279067
+          }
+        ],
+        "TYPEZONE": [
+          {
+            "value": "U",
+            "area_m2": 101.945590117754,
+            "parcel_pct": 0.999999999998839
+          }
+        ],
+        "NOMFIC": [
+          {
+            "value": "33234_REGLEMENT_20170213.pdf",
+            "area_m2": 101.945590117754,
+            "parcel_pct": 0.999999999998839
+          }
+        ],
+        "DATAPPRO": [
+          {
+            "value": "20170213",
+            "area_m2": 101.945590117754,
+            "parcel_pct": 0.999999999998839
+          }
+        ],
+        "DATVALID": [
+          {
+            "value": "20170213",
+            "area_m2": 101.945590117754,
+            "parcel_pct": 0.999999999998839
+          }
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "zones_de_preemptions",
+      "srid": 4326,
+      "geom_col": "geom",
+      "count": 6,
+      "value_attributes": {
+        "id": [
+          "info_surf.fid-1125fe4a_198a38cdd2a_4480",
+          "info_surf.fid-15bb15a0_198a5275d45_7034",
+          "info_surf.fid--4de55e4f_198a2e0e805_3860",
+          "info_surf.fid-5154bcd0_198a3697ae2_-25ed",
+          "info_surf.fid-5154bcd0_198a3bfa298_-1f7",
+          "info_surf.fid-784b5b46_198a532399b_763a"
+        ],
+        "gpu_doc_id": [
+          "f26c159f49168100834810a8d7834216"
+        ],
+        "libelle": [
+          "Droit de préemption urbain"
+        ],
+        "typeinf": [
+          "04"
+        ]
+      },
+      "coverage": {
+        "id": [
+          {
+            "value": "info_surf.fid-1125fe4a_198a38cdd2a_4480",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          },
+          {
+            "value": "info_surf.fid-15bb15a0_198a5275d45_7034",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          },
+          {
+            "value": "info_surf.fid--4de55e4f_198a2e0e805_3860",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          },
+          {
+            "value": "info_surf.fid-5154bcd0_198a3697ae2_-25ed",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          },
+          {
+            "value": "info_surf.fid-5154bcd0_198a3bfa298_-1f7",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          },
+          {
+            "value": "info_surf.fid-784b5b46_198a532399b_763a",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "gpu_doc_id": [
+          {
+            "value": "f26c159f49168100834810a8d7834216",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "libelle": [
+          {
+            "value": "Droit de préemption urbain",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ],
+        "typeinf": [
+          {
+            "value": "04",
+            "area_m2": 101.945590117872,
+            "parcel_pct": 1.0
+          }
+        ]
+      }
+    }
+  ]
+}
